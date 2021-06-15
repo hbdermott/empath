@@ -1,28 +1,32 @@
 import React from "react";
 import Speech from './Speech';
 import './Page.css';
+import blue from './data/blue.gif';
+import red from "./data/red.gif";
+import yellow from "./data/yellow.gif";
+
 const page_data = {
 	id: "10283102938",
 	entries: [
 		{
-			img: "asdasdasd",
+			img: blue,
 			color: "asdasdasd",
 			text: ["Hello World!"],
 		},
 		{
-			img: "asdasdasd",
+			img: red,
 			color: "asdasdasd",
 			text: [
 				"Hello World!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 			],
 		},
 		{
-			img: "asdasdasd",
+			img: yellow,
 			color: "asdasdasd",
 			text: ["Hello World!"],
 		},
 		{
-			img: "asdasdasd",
+			img: blue,
 			color: "asdasdasd",
 			text: ["Hello World!"],
 		},
@@ -31,35 +35,46 @@ const page_data = {
 };
 
 class Page extends React.Component {
-
 	constructor(props) {
 		super(props);
-		this.state = {clicks: 0};
+		this.state = {
+			clicks: 0
+		};
 	}
 
-    handleClick = () => {
-        if (this.state.clicks === page_data.entries.length)
-            return;
-        else
-            this.setState({clicks: this.state.clicks + 1});
-    }
+	handleClick = () => {
+		if (this.state.clicks === page_data.entries.length) return;
+		else this.setState({ clicks: this.state.clicks + 1 });
+	};
 
-    render() {
-        const entries = [];
+	render() {
+		const entries = [];
 
-        for(let i = 0; i <= this.state.clicks && i < page_data.entries.length; i++){
-            entries.push(<Speech count={i} writing={i == this.state.clicks ? true : false} text={page_data.entries[i].text}/>)
-        }
+		for (
+			let i = 0;
+			i <= this.state.clicks && i < page_data.entries.length;
+			i++
+		) {
+			entries.push(
+				<Speech
+					image={page_data.entries[i].img}
+					count={i}
+					writing={i == this.state.clicks ? true : false}
+					text={page_data.entries[i].text}
+				/>
+			);
+		}
 
+		return (
 
-        return(
-            <div className="Page" onClick={() => this.handleClick()} disabled="true">
-               {entries}
-               {this.state.clicks === page_data.entries.length ? page_data.buttons : null}
-            </div>
-        );
-    }
-        
+				<div className="Page" onClick={() => this.handleClick()}>
+					{entries}
+					{this.state.clicks === page_data.entries.length
+						? page_data.buttons
+						: null}
+				</div>
+		);
+	}
 }
 
 export default Page;

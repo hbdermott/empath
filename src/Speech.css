@@ -1,22 +1,33 @@
-
-
-
 .left {
     align-self: flex-start;
-    margin-left: 10%;
-    
+    justify-content: flex-start;
+    margin-left: 15%;
 }
 
 .right {
     align-self: flex-end;
-    margin-right: 10%;
+    justify-content: flex-end;
+    margin-right: 15%;
+}
+
+.entry {
+    margin-top: 3%;
+    width: 35%;
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
 }
 
 .bubble {
+    box-sizing: border-box;
+    border-radius: 3%;
+    background-color: blue;
     padding: 3%;
-    margin-top: 5%;
-    min-width: 10%;
-    max-width: 30%;
-    border-radius: 5%;
-    background-color: #0000FFF0
+    margin: 2%;
+    align-self: center;
+}
+
+.image {
+    width: 10em;
+    height: 10em;
 }
