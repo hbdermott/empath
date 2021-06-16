@@ -1,82 +1,24 @@
 import React from "react";
 import Speech from './Speech';
 import './Page.css';
-import blue from './data/blue.gif';
-import red from "./data/red.gif";
-import yellow from "./data/yellow.gif";
+import page_data from './data/page_data'
+import ReactModal from "react-modal";
+//TODO pass click event to Speeches with more than one message bubble
+//TODO update modal and button styling.
+//TODO pause gif animation
+//TODO implement side control logic
 
-const page_data = {
-	id: "10283102938",
-	entries: [
-		{
-			img: blue,
-			color: "asdasdasd",
-			text: ["Hello World!"],
-			speed: 40,
-		},
-		{
-			img: red,
-			color: "asdasdasd",
-			text: [
-				"Hello World!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			],
-			speed: 40,
-		},
-		{
-			img: yellow,
-			color: "asdasdasd",
-			text: ["Hello World!"],
-			speed: 40,
-		},
-		{
-			img: blue,
-			color: "asdasdasd",
-			text: ["Hello World!"],
-			speed: 40,
-		},
-		{
-			img: red,
-			color: "asdasdasd",
-			text: [
-				"Hello World!aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-			],
-			speed: 40,
-		},
-		{
-			img: yellow,
-			color: "asdasdasd",
-			text: ["Hello World!"],
-			speed: 40,
-		},
-	],
-	buttons: [<div>Button</div>, <div>Button</div>, <div>Button</div>],
-};
 
+// ReactModal.setAppElement("#root");
 class Page extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			clicks: 0,
-			// entries: []
+			options: false
 		};
 		this.bottomRef = React.createRef();
 	}
-
-	// addNextEntry(){
-	// 	this.setState({
-	// 		entries: [
-	// 			...this.state.entries,
-	// 			<Speech
-	// 				image={page_data.entries[this.state.clicks].img}
-	// 				count={this.state.clicks}
-	// 				writing={true}
-	// 				text={page_data.entries[this.state.clicks].text}
-	// 				speed={page_data.entries[this.state.clicks].speed}
-	// 				color={page_data.entries[this.state.clicks].color}
-	// 			/>,
-	// 		],
-	// 	});
-	// }
 
 	componentDidMount() {
 		this.bottomRef.current.focus();
@@ -84,7 +26,8 @@ class Page extends React.Component {
 	}
 
 	componentDidUpdate() {
-		this.scrollToBottom();
+		if (this.state.clicks !== page_data.entries.length)
+			this.scrollToBottom();
 	}
 
 	scrollToBottom = () => {
@@ -92,19 +35,46 @@ class Page extends React.Component {
 	};
 
 	handleKeyPress = (e) => {
-		if(e.keyCode === 32){
+		if (e.keyCode === 32) {
 			this.handleClick();
 		}
-	}
+	};
 
 	handleClick = () => {
 		if (this.state.clicks !== page_data.entries.length) {
 			this.setState({ clicks: this.state.clicks + 1 });
-			// this.addNextEntry();
+			console.log(this.state.clicks);
+		}if(!this.state.options && this.state.clicks >= page_data.entries.length - 1) {
+			this.openOptions();
 		}
-		this.scrollToBottom();
 	};
 
+	closeOptions = () => {
+		this.setState({ options: false });
+	};
+
+	openOptions = () => {
+		this.setState({ options: true });
+	};
+
+	customStyles = {
+		overlay: {
+			position: "fixed",
+			top: 0,
+			left: 0,
+			right: 0,
+			bottom: 0,
+			backgroundColor: "rgba(000, 000, 000, 0.55)",
+		},
+		content: {
+			top: "50%",
+			left: "50%",
+			right: "auto",
+			bottom: "auto",
+			marginRight: "-50%",
+			transform: "translate(-50%, -50%)",
+		},
+	};
 	render() {
 		const entries = [];
 
@@ -117,14 +87,15 @@ class Page extends React.Component {
 				<Speech
 					image={page_data.entries[i].img}
 					count={i}
-					writing={i == this.state.clicks ? true : false}
+					key={i}
+					writing={i === this.state.clicks ? true : false}
 					text={page_data.entries[i].text}
 					speed={page_data.entries[i].speed}
 					color={page_data.entries[i].color}
+					side={page_data.entries[i].side}
 				/>
 			);
 		}
-
 		return (
 			<div
 				className="Page"
@@ -134,9 +105,14 @@ class Page extends React.Component {
 				onKeyDown={(e) => this.handleKeyPress(e)}
 			>
 				{entries}
-				{this.state.clicks === page_data.entries.length
-					? page_data.buttons
-					: null}
+				<ReactModal
+					style={this.customStyles}
+					isOpen={this.state.options}
+					onRequestClose={this.closeOptions}
+				>
+					{page_data.buttons.map((button, i) => <button key={i}>{button.text}</button>)}
+					<button onClick={this.closeOptions}>close</button>
+				</ReactModal>
 			</div>
 		);
 	}

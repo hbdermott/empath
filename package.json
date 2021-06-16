@@ -9,6 +9,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-full-screen": "^1.0.2",
+    "react-modal": "^3.14.3",
     "react-resizable": "^3.0.3",
     "react-scripts": "4.0.3",
     "react-scroll": "^1.8.2",

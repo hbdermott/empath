@@ -24,16 +24,25 @@
     border-radius: 3%;
     flex-basis: auto;
     flex-shrink: 1;
-    width: 40%;
+    width: 100%;
     background-color: blue;
-    padding: 3%;
+    padding: 8%;
     margin: 2%;
-    align-self: flex-end;
+    align-self: center;
     display: flex; /* required */
     flex-flow: nowrap;
-    align-items: start;
+    align-items: flex-start;
     text-align: center;
     justify-content: center;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+    height: 100%;
 }
 
 
