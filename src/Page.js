@@ -3,18 +3,18 @@ import Speech from './Speech';
 import './Page.css';
 import page_data from './data/page_data'
 import ReactModal from "react-modal";
-//TODO pass click event to Speeches with more than one message bubble
 //TODO update modal and button styling.
 //TODO pause gif animation
 //TODO implement side control logic
 
 
-// ReactModal.setAppElement("#root");
+ReactModal.setAppElement("#root");
 class Page extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			clicks: 0,
+			entries: 0,
+			messages: 0,
 			options: false
 		};
 		this.bottomRef = React.createRef();
@@ -26,8 +26,7 @@ class Page extends React.Component {
 	}
 
 	componentDidUpdate() {
-		if (this.state.clicks !== page_data.entries.length)
-			this.scrollToBottom();
+		this.scrollToBottom();
 	}
 
 	scrollToBottom = () => {
@@ -41,11 +40,20 @@ class Page extends React.Component {
 	};
 
 	handleClick = () => {
-		if (this.state.clicks !== page_data.entries.length) {
-			this.setState({ clicks: this.state.clicks + 1 });
-			console.log(this.state.clicks);
-		}if(!this.state.options && this.state.clicks >= page_data.entries.length - 1) {
-			this.openOptions();
+		if (this.state.entries >= page_data.entries.length - 1){
+			if(!this.state.options){
+				this.openOptions();
+			}
+		}
+		else if (this.state.messages < page_data.entries[this.state.entries].text.length - 1) {
+			this.setState({ messages: this.state.messages + 1 });
+			console.log(`entries: ${this.state.entries}`);
+			console.log(`messages: ${this.state.messages}`);
+		} else if (this.state.entries < page_data.entries.length) {
+			this.setState({ entries: this.state.entries + 1 });
+			this.setState({ messages: 0 });
+			console.log(`entries: ${this.state.entries}`);
+			console.log(`messages: ${this.state.messages}`);
 		}
 	};
 
@@ -80,7 +88,7 @@ class Page extends React.Component {
 
 		for (
 			let i = 0;
-			i <= this.state.clicks && i < page_data.entries.length;
+			i <= this.state.entries && i < page_data.entries.length;
 			i++
 		) {
 			entries.push(
@@ -88,8 +96,9 @@ class Page extends React.Component {
 					image={page_data.entries[i].img}
 					count={i}
 					key={i}
-					writing={i === this.state.clicks ? true : false}
+					writing={i === this.state.entries ? true : false}
 					text={page_data.entries[i].text}
+					messages={this.state.messages}
 					speed={page_data.entries[i].speed}
 					color={page_data.entries[i].color}
 					side={page_data.entries[i].side}

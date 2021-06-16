@@ -9,7 +9,7 @@ const page_data = {
 			img: blue,
 			side: 0,
 			color: "blue",
-			text: [["Hello World!"]],
+			text: [["Hello World!"], ["Hello World!"], ["Hello World!"]],
 			speed: 40,
 		},
 		{
