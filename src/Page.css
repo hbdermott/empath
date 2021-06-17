@@ -3,7 +3,8 @@
     flex-direction: column;
     /* align-items: center; */
     width: 100%;
-    background-color: #000000;
+    /* background-color: #1f1f1f; */
+    background-color: black;
     color: #FFFFFF;
     word-break: break-word;
     height: 100vh;

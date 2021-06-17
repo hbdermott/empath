@@ -1,27 +1,42 @@
-import Typed from 'react-typed';
+// import Typed from 'react-typed';
+import { useState } from 'react';
+import Bubble from './Bubble';
 import './Speech.css';
+var GifPlayer = require('react-gif-player');
+
+
 function Speech(props) {
-	const image = props.image ? <img className="image" src={props.image} /> : null;
+	const [pauseGif, setPauseGif] = useState(null);
 	const messages = [];
-	for(let i = 0; i <= props.messages || (!props.writing && props.text.length > 1) && i < props.text.length; i++){
+	let image = null;
+	if(props.image){
+		const png_name = props.image.slice(0, -3).concat("png");
+		image = (
+			<GifPlayer
+				className="image"
+				autoplay={true}
+				gif={process.env.PUBLIC_URL + props.image}
+				still={process.env.PUBLIC_URL + png_name}
+				pauseRef={(pause) => setPauseGif(() => pause)}
+			/>
+		);
+		if(!props.writing){
+			pauseGif();
+		}
+
+	}
+	for(let i = 0; i <= props.messages; i++){
 		messages.push(
-			<div className="bubble" style={{ backgroundColor: props.color }}>
-				{props.writing && i == props.messages && <span className="background">{props.text[i]}</span>}
-				{props.writing && i == props.messages ? (
-					<Typed
-						className="foreground"
-						strings={props.text[i]}
-						key={i}
-						typeSpeed={props.speed}
-						showCursor={true}
-					/>
-				) : (
-					props.text[i]
-				)}
-			</div>
+			<Bubble 
+				current={props.writing && i === props.messages} 
+				key={i}
+				text={[props.text[i]]} 
+				textColor={props.textColor} 
+				backgroundColor={props.color}/>
 		);
 	}
     return (
+		!image ? <div className="narrative">{messages}</div> :
 			<div className={`entry ${props.count % 2 === 0 ? "left" : "right"}`}>
 				{props.count % 2 === 0 && image}
 				<div className="messages">

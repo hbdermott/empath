@@ -4,7 +4,7 @@ import './Page.css';
 import page_data from './data/page_data'
 import ReactModal from "react-modal";
 //TODO update modal and button styling.
-//TODO pause gif animation
+//TODO fix gif state warning
 //TODO implement side control logic
 
 
@@ -40,7 +40,7 @@ class Page extends React.Component {
 	};
 
 	handleClick = () => {
-		if (this.state.entries >= page_data.entries.length - 1){
+		if (this.state.entries >= page_data.entries.length){
 			if(!this.state.options){
 				this.openOptions();
 			}
@@ -98,7 +98,7 @@ class Page extends React.Component {
 					key={i}
 					writing={i === this.state.entries ? true : false}
 					text={page_data.entries[i].text}
-					messages={this.state.messages}
+					messages={i === this.state.entries ? this.state.messages : page_data.entries[i].text.length - 1}
 					speed={page_data.entries[i].speed}
 					color={page_data.entries[i].color}
 					side={page_data.entries[i].side}

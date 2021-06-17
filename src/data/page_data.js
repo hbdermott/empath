@@ -1,43 +1,38 @@
-import blue from "./blue.gif";
-import red from "./red.gif";
-import yellow from "./yellow.gif";
+// import blue from "./blue.gif";
+// import red from "./red.gif";
+// import yellow from "./yellow.gif";
 
 const page_data = {
 	id: "10283102938",
 	entries: [
 		{
-			img: blue,
-			side: 0,
+			img: "/blue.gif",
 			color: "blue",
-			text: [["Hello World!"], ["Hello World!"], ["Hello World!"]],
-			speed: 40,
+			text: [
+				"Hello World! Hello World! Hello World!",
+				"Hello World!",
+				"Hello World!",
+				"Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World! Hello World!",
+				"Hello World!",
+			],
 		},
 		{
-			color: "blue",
-			side: 0,
-			text: [["Hello World!"]],
-			speed: 40,
+			text: ["Hello World!"],
 		},
 		{
-			img: red,
+			img: "/red.gif",
 			color: "red",
-			side: 1,
-			text: [["Hello World!"]],
-			speed: 40,
+			text: ["Hello World!"],
 		},
 		{
-			img: yellow,
+			img: "/yellow.gif",
 			color: "yellow",
-			side: 0,
-			text: [["Hello World!"]],
-			speed: 40,
+			text: ["Hello World!"],
 		},
 		{
-			img: blue,
+			img: "/blue.gif",
 			color: "blue",
-			side: 1,
-			text: [["Hello World!"]],
-			speed: 40,
+			text: ["Hello World!"],
 		},
 	],
 	buttons: [{ text: "First!" }, { text: "Second!" }, { text: "Third!" }],
