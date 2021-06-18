@@ -119,7 +119,7 @@ class Page extends React.Component {
 					isOpen={this.state.options}
 					onRequestClose={this.closeOptions}
 				>
-					{page_data.buttons.map((button, i) => <button key={i}>{button.text}</button>)}
+					{page_data.buttons.map((button, i) => <button onClick={console.log("Clicked")}key={i}>{button.text}</button>)}
 					<button onClick={this.closeOptions}>close</button>
 				</ReactModal>
 			</div>

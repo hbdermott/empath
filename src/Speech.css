@@ -39,6 +39,10 @@
 
 
 .image {
-    width: 10em;
-    height: 10em;
+    width: 5em;
+    border: 2px solid grey;
+    border-radius: 50%;
+    background-color: rgb(49, 49, 49);
+    margin: -5%;
+    height: 5em;
 }
