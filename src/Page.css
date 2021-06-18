@@ -9,6 +9,7 @@
     word-break: break-word;
     height: 100vh;
     overflow-y: auto;
+    /* padding-top: 2%; */
 }
 
 .Options {

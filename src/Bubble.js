@@ -1,8 +1,8 @@
 import Typed from "react-typed";
 
-import "./Speech.css";
+import "./Bubble.css";
 const defaultBackgroundColor = "black";
-const defaultTypeSpeed = 60;
+const defaultTypeSpeed = 37;
 const defaultTextColor = "white";
 
 
@@ -25,19 +25,22 @@ function Bubble(props) {
     }
         
     return (
-			<div className="bubble" style={{ backgroundColor: backgroundColor, color: textColor }}>
-				{props.current && <span className="background">{props.text}</span>}
-                {props.current ? 
-                    <Typed
-                        className="foreground"
-                        strings={props.text}
-                        typeSpeed={typeSpeed}
-                        loop={loop}
-                        showCursor={false}
-                        cursorChar="_"
-                    />
-                    : props.text
-                }
+			<div
+				className="bubble"
+				style={{ backgroundColor: backgroundColor, color: textColor }}
+			>
+				<span className="background">{props.text}</span>
+				{props.current ? (
+					<Typed
+						strings={props.text}
+						typeSpeed={typeSpeed}
+						loop={loop}
+						showCursor={false}
+						cursorChar="_"
+					/>
+				) : (
+					<div>{props.text}</div>
+				)}
 			</div>
 		);
 }
