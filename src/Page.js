@@ -15,7 +15,8 @@ class Page extends React.Component {
 		this.state = {
 			entries: 0,
 			messages: 0,
-			options: false
+			options: false,
+			id: window.localStorage.getItem("id") ? window.localStorage.getItem("id") : "0"
 		};
 		this.bottomRef = React.createRef();
 	}
@@ -39,17 +40,22 @@ class Page extends React.Component {
 		}
 	};
 
+	updatePage = (new_id) => {
+		window.localStorage.setItem("id", new_id);
+		this.setState({ messages: 0, entries: 0, options: false, id: new_id});
+	}
+
 	handleClick = () => {
-		if (this.state.entries >= page_data.entries.length){
+		if (this.state.entries >= page_data[this.state.id].entries.length){
 			if(!this.state.options){
 				this.openOptions();
 			}
 		}
-		else if (this.state.messages < page_data.entries[this.state.entries].text.length - 1) {
+		else if (this.state.messages < page_data[this.state.id].entries[this.state.entries].text.length - 1) {
 			this.setState({ messages: this.state.messages + 1 });
 			console.log(`entries: ${this.state.entries}`);
 			console.log(`messages: ${this.state.messages}`);
-		} else if (this.state.entries < page_data.entries.length) {
+		} else if (this.state.entries < page_data[this.state.id].entries.length) {
 			this.setState({ entries: this.state.entries + 1 });
 			this.setState({ messages: 0 });
 			console.log(`entries: ${this.state.entries}`);
@@ -88,20 +94,20 @@ class Page extends React.Component {
 
 		for (
 			let i = 0;
-			i <= this.state.entries && i < page_data.entries.length;
+			i <= this.state.entries && i < page_data[this.state.id].entries.length;
 			i++
 		) {
 			entries.push(
 				<Speech
-					image={page_data.entries[i].img}
+					image={page_data[this.state.id].entries[i].img}
 					count={i}
 					key={i}
 					writing={i === this.state.entries ? true : false}
-					text={page_data.entries[i].text}
-					messages={i === this.state.entries ? this.state.messages : page_data.entries[i].text.length - 1}
-					speed={page_data.entries[i].speed}
-					color={page_data.entries[i].color}
-					side={page_data.entries[i].side}
+					text={page_data[this.state.id].entries[i].text}
+					messages={i === this.state.entries ? this.state.messages : page_data[this.state.id].entries[i].text.length - 1}
+					speed={page_data[this.state.id].entries[i].speed}
+					color={page_data[this.state.id].entries[i].color}
+					side={page_data[this.state.id].entries[i].side}
 				/>
 			);
 		}
@@ -119,7 +125,7 @@ class Page extends React.Component {
 					isOpen={this.state.options}
 					onRequestClose={this.closeOptions}
 				>
-					{page_data.buttons.map((button, i) => <button onClick={console.log("Clicked")}key={i}>{button.text}</button>)}
+					{page_data[this.state.id].buttons.map((button, i) => <button onClick={() => this.updatePage(button.id)} key={i}>{button.text}</button>)}
 					<button onClick={this.closeOptions}>close</button>
 				</ReactModal>
 			</div>
